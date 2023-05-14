@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -16,6 +22,33 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class Assignment {
+  final String name;
+  final String subject;
+  final int progress;
+  final DateTime date;
+  final String description;
+
+  Assignment({
+    required this.name,
+    required this.subject,
+    required this.progress,
+    required this.date,
+    required this.description,
+  });
+
+  factory Assignment.fromJson(Map<String, dynamic> json) {
+    return Assignment(
+      name: json['name'],
+      subject: json['subject'],
+      progress: json['progress'],
+      date: DateTime.parse(json['date']),
+      description: json['description'],
+    );
+  }
+}
+
 
 class MyHomePage extends StatelessWidget {
   void showSnackBar(BuildContext context, String content) {
