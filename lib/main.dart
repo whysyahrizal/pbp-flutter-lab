@@ -33,6 +33,42 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Study Tracker'),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Menu'),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.add),
+              title: Text('Tambah Tugas'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => FormPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -45,8 +81,10 @@ class MyHomePage extends StatelessWidget {
             ),
             SizedBox(height: 20), // Jarak antara tombol
             ElevatedButton.icon(
-              onPressed: () => showSnackBar(
-                  context, 'Kamu telah menekan tombol Tambah Tugas'),
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => FormPage()),
+              ),
               icon: Icon(Icons.add),
               label: Text('Tambah Tugas'),
             ),
@@ -63,3 +101,133 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+class FormPage extends StatefulWidget {
+  @override
+  _FormPageState createState() => _FormPageState();
+}
+
+class _FormPageState extends State<FormPage> {
+  final _formKey = GlobalKey<FormState>();
+  final taskNameController = TextEditingController();
+  final courseNameController = TextEditingController();
+  final progressController = TextEditingController();
+  final taskDescriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    taskNameController.dispose();
+    courseNameController.dispose();
+    progressController.dispose();
+    taskDescriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tambah Tugas'),
+          leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+            );
+          },
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextFormField(
+              controller: taskNameController,
+              decoration: const InputDecoration(
+                hintText: 'Masukkan nama tugas',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Masukkan nama tugas';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: courseNameController,
+              decoration: const InputDecoration(
+                hintText: 'Masukkan nama mata kuliah',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Masukkan nama mata kuliah';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: progressController,
+              decoration: const InputDecoration(
+                hintText: 'Masukkan persentase progress',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Masukkan persentase progress';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: taskDescriptionController,
+              decoration: const InputDecoration(
+                hintText: 'Masukkan deskripsi tugas',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Masukkan deskripsi tugas';
+                }
+                return null;
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Informasi Tugas'),
+                          content: Text(
+                            'Nama Tugas: ${taskNameController.text}\n'
+                            'Nama Mata Kuliah: ${courseNameController.text}\n'
+                            'Persentase Progress: ${progressController.text}\n'
+                            'Deskripsi Tugas: ${taskDescriptionController.text}',
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Text('Tambah'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+             
