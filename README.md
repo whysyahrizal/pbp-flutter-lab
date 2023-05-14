@@ -118,10 +118,10 @@ Berikut adalah beberapa widget yang digunakan dalam proyek ini:
 Proses implementasi checklist umumnya melibatkan beberapa langkah:
 
 
-1. **Migrasi proyek tugas Django kamu ke salah satu PaaS
+1. **Migrasi proyek tugas Django  ke salah satu PaaS
    alternatif.**
 
-   - Kita bisa menggunakan berbagai layanan PaaS seperti Heroku, Google Cloud, atau AWS. Untuk migrasi ke Heroku, Kita perlu membuat file `requirements.txt` untuk daftar
+   - Kita bisa menggunakan berbagai layanan PaaS seperti Heroku, Google Cloud, atau AWS, namun disini saya menggunakan railway (karena gratis :D). Untuk migrasi ke Heroku, Kita perlu membuat file `requirements.txt` untuk daftar
      dependensi Python, `Procfile` untuk menentukan proses web dan pekerja, dan
      `runtime.txt` untuk menentukan versi Python. Setelah itu, Kita bisa menerapkan
      aplikasi Django ke Heroku menggunakan Git.
